@@ -1,0 +1,12 @@
+MCERD TODO
+    - removed hard coded "gas atoms": Update: done, not tested well. Isotope issue remains to be solved. Update2: limitations found, possibly fixed
+    - implement new physics to jibal and/or mcerd
+        - screened cross sections (Kai) - part of jibal?
+        - faster heavy ion simulations (especially of substrate signal) by changing step size, currently < 1Å steps are possible for high Z and low E (Kai)
+    - fix scattering/recoiling absolute yields (Kai)
+        - benchmark against SimNRA
+    - sane version numbering, home page, binary distributions etc.
+    - implement testing (CTest?) and some basic tests
+    - add copyright and copying information (GPL?)
+    - copy files to a new repository to erase all git history, push to GitHub
+    - make sure Potku uses this version (git submodule)

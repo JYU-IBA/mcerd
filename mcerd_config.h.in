@@ -1,0 +1,9 @@
+#define mcerd_VERSION "@mcerd_VERSION@"
+#define mcerd_VERSION_MAJOR @mcerd_VERSION_MAJOR@
+#define mcerd_VERSION_MINOR @mcerd_VERSION_MINOR@
+#define mcerd_VERSION_PATCH @mcerd_VERSION_PATCH@
+
+#define mcerd_DESCRIPTION "@mcerd_DESCRIPTION@"
+
+#cmakedefine DEVELOPER_MODE_ENABLE
+#cmakedefine MCERD_DATADIR "@MCERD_DATADIR@"
