@@ -31,7 +31,7 @@ void calc_stopping_and_straggling(Global *global, Ion *ion, Target *target, int 
         p = layer->atom[i];
         z2 = target->ele[p].Z;
         if (!jibal_gsto_auto_assign(global->jibal.gsto, z1, z2)) {
-            fprintf(stderr, "Error in assigning stopping.\n");
+            fprintf(stderr, "Error in assigning stopping Z1=%i, Z2=%i.\n", z1, z2);
             exit(14);
         }
     }
