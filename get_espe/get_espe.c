@@ -36,9 +36,9 @@
 #define NLINE       128
 #endif
 
-#define MCERD_SCALING_DEPTH 10*C_NM
+#define MCERD_SCALING_DEPTH (10*C_NM)
 
-#define BEAM_DOSE   1.0*C_UC
+#define BEAM_DOSE   (1.0*C_UC)
 #define BEAM_ANGLE  (41.12*C_DEG)
 #define BEAM_Z      17
 #define BEAM_A        35
@@ -304,7 +304,7 @@ Scale calculate_scale(const Params *params, const Data *data, int z2, int recoil
     } else {
         s.cs = Srbs(params->z1, params->m1, s.z2, s.m2, params->theta, params->energy);
     }
-    s.total = s.cs * params->solid * (params->density/MCERD_SCALING_DEPTH) * params->dose * (1.0 / sin(params->tangle));
+    s.total = s.cs * params->solid * (params->density*MCERD_SCALING_DEPTH) * params->dose * (1.0 / sin(params->tangle));
     if (params->scale > 0.0) {
         s.final = params->scale;
     } else {
@@ -350,8 +350,9 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "Detector angle:                        %7.2f deg \n", params.theta / C_DEG);
     fprintf(stderr, "Target angle:                          %7.2f deg \n", params.tangle / C_DEG);
     fprintf(stderr, "Detector solid angle:                  %7.2f msr\n", params.solid / C_MSR);
-    fprintf(stderr, "Surface density for scaling:              %6.3e 1/cm3\n", params.density * C_CM3);
+    fprintf(stderr, "Density for scaling:                      %6.3e 1/cm3\n", params.density * C_CM3);
     fprintf(stderr, "MCERD scaling ion max depth:              %5.1e nm\n", MCERD_SCALING_DEPTH/C_NM);
+    fprintf(stderr, "Surface density for scaling:              %6.3e 1/cm2\n", (params.density * MCERD_SCALING_DEPTH) * C_CM2);
     fprintf(stderr, "Beam dose:                              %10.2e (%.3f particle-uC)\n", params.dose,
             params.dose / C_UC);
     if (params.scale > 0.0) {
