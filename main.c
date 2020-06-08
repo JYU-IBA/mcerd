@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     int ion_i = 0;
     int new_track = 1;
     double E_previous = 0.0, E_difference;
-    fprintf(stderr, "MCERD %s compiled using JIBAL %s, using JIBAL %s.\n", mcerd_VERSION, jibal_VERSION, jibal_version());
+    fprintf(stderr, "MCERD %s compiled using JIBAL %s, current library version %s.\n", mcerd_VERSION, jibal_VERSION, jibal_version());
 #ifdef DEBUG
     for(i=0; i < argc; i++) {
         fprintf(stderr, "argv[%i]=%s\n", i, argv[i]);
@@ -51,6 +51,7 @@ int main(int argc, char *argv[]) {
                 jibal_error_string(global.jibal.error));
         return EXIT_FAILURE;
     }
+    jibal_status_print(stderr, &global.jibal);
     fprintf(stderr, "Initializing parameters.\n");
     init_params(&global, target, argc, argv);
 
