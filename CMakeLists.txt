@@ -10,6 +10,9 @@ set(CMAKE_REQUIRED_LIBRARIES "m")
 set(CMAKE_C_STANDARD 99)
 
 find_package(Jibal 0.2.5 REQUIRED)
+if(Jibal_FOUND)
+    message(STATUS "JIBAL ${Jibal_VERSION} headers found at ${Jibal_INCLUDE_DIR}")
+endif()
 
 option(DEVELOPER_MODE_ENABLE "Enable developer mode" ON)
 if(DEVELOPER_MODE_ENABLE)
