@@ -17,6 +17,8 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+
+#include <jibal_defaults.h>
 #include "general.h"
 #include "prototypes.h"
 #include "read_input.h"
@@ -37,8 +39,8 @@ int main(int argc, char *argv[]) {
     int ion_i = 0;
     int new_track = 1;
     double E_previous = 0.0, E_difference;
+    fprintf(stderr, "MCERD %s compiled using JIBAL %s, using JIBAL %s.\n", mcerd_VERSION, jibal_VERSION, jibal_version());
 #ifdef DEBUG
-    fprintf(stderr, "MCERD %s alive.\n", mcerd_VERSION);
     for(i=0; i < argc; i++) {
         fprintf(stderr, "argv[%i]=%s\n", i, argv[i]);
     }

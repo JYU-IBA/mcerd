@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 project(mcerd
-        VERSION 1.0.0
+        VERSION 1.0.1
         DESCRIPTION "Monte Carlo ERD"
         LANGUAGES C
         )
@@ -9,7 +9,7 @@ set(CMAKE_REQUIRED_LIBRARIES "m")
 
 set(CMAKE_C_STANDARD 99)
 
-find_package(Jibal REQUIRED)
+find_package(Jibal 0.2.5 REQUIRED)
 
 option(DEVELOPER_MODE_ENABLE "Enable developer mode" ON)
 if(DEVELOPER_MODE_ENABLE)
