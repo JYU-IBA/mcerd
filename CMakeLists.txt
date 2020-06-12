@@ -1,4 +1,9 @@
 cmake_minimum_required(VERSION 3.13)
+if(WIN32 AND DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      CACHE STRING "")
+  message(STATUS "CMake toolchain file ${CMAKE_TOOLCHAIN_FILE}")
+endif()
 project(mcerd
         VERSION 1.0.1
         DESCRIPTION "Monte Carlo ERD"
