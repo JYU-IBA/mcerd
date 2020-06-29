@@ -56,7 +56,7 @@ void read_input(Global *global, Ion **ion, Target *target, Detector *detector) {
                 break;
             case I_ION:
                 c = get_string(c);
-                get_ion(global->jibal.elements, c, &((*ion)[PRIMARY].Z), &((*ion)[PRIMARY].A), &((*ion)[PRIMARY].I));
+                get_ion(global->jibal->elements, c, &((*ion)[PRIMARY].Z), &((*ion)[PRIMARY].A), &((*ion)[PRIMARY].I));
                 (*ion)[PRIMARY].type = PRIMARY;
                 fprintf(fout, "Beam ion: Z=%.0f, M=%.3f\n", (*ion)[PRIMARY].Z, (*ion)[PRIMARY].A / C_U);
                 break;
@@ -78,7 +78,7 @@ void read_input(Global *global, Ion **ion, Target *target, Detector *detector) {
                 break;
             case I_RECOIL:
                 c = get_string(c);
-                get_ion(global->jibal.elements, c, &((*ion)[SECONDARY].Z), &((*ion)[SECONDARY].A),
+                get_ion(global->jibal->elements, c, &((*ion)[SECONDARY].Z), &((*ion)[SECONDARY].A),
                         &((*ion)[SECONDARY].I));
                 (*ion)[SECONDARY].type = SECONDARY;
                 fprintf(fout, "Recoil atom: Z=%.0f, M=%.3f\n", (*ion)[SECONDARY].Z, (*ion)[SECONDARY].A / C_U);

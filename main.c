@@ -46,12 +46,12 @@ int main(int argc, char *argv[]) {
     }
 #endif
     global.jibal = jibal_init(NULL);
-    if (global.jibal.error) {
-        fprintf(stderr, "Initializing JIBAL failed with error code: %i (%s)\n", global.jibal.error,
-                jibal_error_string(global.jibal.error));
+    if (global.jibal->error) {
+        fprintf(stderr, "Initializing JIBAL failed with error code: %i (%s)\n", global.jibal->error,
+                jibal_error_string(global.jibal->error));
         return EXIT_FAILURE;
     }
-    jibal_status_print(stderr, &global.jibal);
+    jibal_status_print(stderr, global.jibal);
     fprintf(stderr, "Initializing parameters.\n");
     init_params(&global, target, argc, argv);
 
@@ -69,9 +69,9 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "%i ions, %i target atoms\n", global.nions, target->natoms);
 
 #ifndef NO_GSTO_EXTRAPOLATE_ALWAYS
-    global.jibal.gsto->extrapolate = TRUE; /* This needs to be before calc_stopping_and_straggling to make any difference */
+    global.jibal->gsto->extrapolate = TRUE; /* This needs to be before calc_stopping_and_straggling to make any difference */
 #endif
-    fprintf(stderr, "GSTO extrapolation turned %s.\n", global.jibal.gsto->extrapolate ? "ON" : "OFF");
+    fprintf(stderr, "GSTO extrapolation turned %s.\n", global.jibal->gsto->extrapolate ? "ON" : "OFF");
 
     for (i = 0; i < global.nions; i++) {
         if (global.simtype == SIM_RBS && i == TARGET_ATOM)
@@ -101,8 +101,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    jibal_gsto_print_files(global.jibal.gsto, TRUE);
-    jibal_gsto_print_assignments(global.jibal.gsto);
+    jibal_gsto_print_files(global.jibal->gsto, TRUE);
+    jibal_gsto_print_assignments(global.jibal->gsto);
 
     if (global.simtype == SIM_RBS) {
         copy_ions(ion, target, TARGET_ATOM, SECONDARY, FALSE);

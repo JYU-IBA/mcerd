@@ -325,7 +325,7 @@ int main(int argc, char *argv[]) {
     Params params = {0};
     Data data = {0};
     Scale scale;
-    jibal jibal;
+    jibal *jibal;
     char line[NLINE];
     int i;
     int valid;
@@ -339,13 +339,13 @@ int main(int argc, char *argv[]) {
     recoil = TRUE;
 
     jibal = jibal_init(NULL);
-    if (jibal.error) {
-        fprintf(stderr, "Initializing JIBAL failed with error code: %i (%s)\n", jibal.error,
-                jibal_error_string(jibal.error));
+    if (jibal->error) {
+        fprintf(stderr, "Initializing JIBAL failed with error code: %i (%s)\n", jibal->error,
+                jibal_error_string(jibal->error));
         return -1;
     }
 
-    readparams(argc, argv, &jibal, &params, &data);
+    readparams(argc, argv, jibal, &params, &data);
     fprintf(stderr, "Beam energy:                           %7.2f MeV \n", params.energy / C_MEV);
     fprintf(stderr, "Detector angle:                        %7.2f deg \n", params.theta / C_DEG);
     fprintf(stderr, "Target angle:                          %7.2f deg \n", params.tangle / C_DEG);
@@ -449,7 +449,7 @@ int main(int argc, char *argv[]) {
         output_spectrum(&params, event, recoil, &data, scale.final);
     }
 
-    jibal_free(&jibal);
+    jibal_free(jibal);
     free(event);
     exit(0);
 }

@@ -223,7 +223,7 @@ typedef struct {
     int output_misses; /* Bool TRUE/FALSE */
     int cascades; /* Bool TRUE/FALSE */
     int advanced_output; /* Bool TRUE/FALSE */
-    jibal jibal;
+    jibal *jibal;
 } Global;
 
 /*      Structures for the properties of the moving ion */

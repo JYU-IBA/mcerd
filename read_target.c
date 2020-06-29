@@ -25,7 +25,7 @@ void read_target_file(char *fname, Global *global, Target *target) {
     while (fgets(buf, LINE, fp) != NULL && line_not_empty(buf)) {
         c = get_number(buf, &M);
         M *= C_U;
-        get_atom(global->jibal.elements, c, &Z);
+        get_atom(global->jibal->elements, c, &Z);
         target->ele[natoms].Z = Z;
         target->ele[natoms].A = M;
         printf("Atom: %3i %5.4f %f\n", natoms, Z, M / C_U);

@@ -30,12 +30,12 @@ void calc_stopping_and_straggling(Global *global, Ion *ion, Target *target, int 
     for (i = 0; i < layer->natoms; i++) {
         p = layer->atom[i];
         z2 = target->ele[p].Z;
-        if (!jibal_gsto_auto_assign(global->jibal.gsto, z1, z2)) {
+        if (!jibal_gsto_auto_assign(global->jibal->gsto, z1, z2)) {
             fprintf(stderr, "Error in assigning stopping Z1=%i, Z2=%i.\n", z1, z2);
             exit(14);
         }
     }
-    if (!jibal_gsto_load_all(global->jibal.gsto)) {
+    if (!jibal_gsto_load_all(global->jibal->gsto)) {
         fprintf(stderr, "Error in loading stopping.\n");
         exit(14);
     }
@@ -47,8 +47,8 @@ void calc_stopping_and_straggling(Global *global, Ion *ion, Target *target, int 
             v = j * vstep;
             layer->sto[nion].vel[j] = v;
             double em = energy_per_mass(v);
-            double stop = jibal_gsto_get_em(global->jibal.gsto, GSTO_STO_ELE, z1, z2, em) * layer->N[i];
-            double stragg = jibal_gsto_get_em(global->jibal.gsto, GSTO_STO_STRAGG, z1, z2, em) * layer->N[i];
+            double stop = jibal_gsto_get_em(global->jibal->gsto, GSTO_STO_ELE, z1, z2, em) * layer->N[i];
+            double stragg = jibal_gsto_get_em(global->jibal->gsto, GSTO_STO_STRAGG, z1, z2, em) * layer->N[i];
             if ((j && stop == 0.0) || !isfinite(stop)) {
                 fprintf(stderr, "Warning: stopping at v=%e m/s (j=%i) for atom %i (i=%i), Z1=%i, Z2=%i is: %g\n", v,
                         j, p, i, z1, z2, stop);
