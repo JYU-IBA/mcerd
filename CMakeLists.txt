@@ -5,7 +5,7 @@ if(WIN32 AND DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   message(STATUS "CMake toolchain file ${CMAKE_TOOLCHAIN_FILE}")
 endif()
 project(mcerd
-        VERSION 1.0.1
+        VERSION 1.0.2
         DESCRIPTION "Monte Carlo ERD"
         LANGUAGES C
         )
