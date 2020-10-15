@@ -10,7 +10,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 project(mcerd
-        VERSION 1.0.2
+        VERSION 1.0.3
         DESCRIPTION "Monte Carlo ERD"
         LANGUAGES C
         )
