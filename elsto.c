@@ -53,6 +53,10 @@ void calc_stopping_and_straggling(Global *global, Ion *ion, Target *target, int 
                 fprintf(stderr, "Warning: stopping at v=%e m/s (j=%i) for atom %i (i=%i), Z1=%i, Z2=%i is: %g\n", v,
                         j, p, i, z1, z2, stop);
             }
+            if ((j && stragg == 0.0) || !isfinite(stragg)) {
+                fprintf(stderr, "Warning: straggling at v=%e m/s (j=%i) for atom %i (i=%i), Z1=%i, Z2=%i is: %g\n", v,
+                        j, p, i, z1, z2, stragg);
+            }
             layer->sto[nion].sto[j] += stop;
             layer->sto[nion].stragg[j] += stragg;
         }
