@@ -290,12 +290,12 @@ Vector get_recoiling_dir(Global *global, Ion *ion, Ion *recoil, Target *target,
             if (i % 5 == 0) {
                 thetamax = min(thetamax * 2.0, C_PI / 2.0);
                 costhetamax = cos(thetamax);
-                printf("recoil: %6.2f %6.2f %6.2f %6.2f\n", d_ion.theta / C_DEG,
+                fprintf(stderr, "recoil: %6.2f %6.2f %6.2f %6.2f\n", d_ion.theta / C_DEG,
                        d_ion.fii / C_DEG, thetamax / C_DEG, acos(global->costhetamin) / C_DEG);
-                printf("%i calculations for recoil angle, increasing thetamax\n", i);
+                fprintf(stderr, "%i calculations for recoil angle, increasing thetamax\n", i);
             }
             if (i > 100) {
-                printf("%i calculations for recoil angle, exiting...\n", i);
+                fprintf(stderr, "%i calculations for recoil angle, exiting...\n", i);
                 exit(11);
             }
         } while (cos(d_ion.theta) > global->costhetamin);
