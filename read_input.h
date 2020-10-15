@@ -33,8 +33,9 @@
 #define I_CASCADES  25
 #define I_NCASCADES 26
 #define I_ADVANCED  27
+#define I_NOMC      28
 
-#define NINPUT      28
+#define NINPUT      29
 
 typedef struct {
     char unit[MAXUNITSTRING];
@@ -82,7 +83,8 @@ static const char *inlines[] = {
         "Output misses:",
         "Recoil cascades:",
         "Number of recoils in a cascade:",
-        "Advanced output:"
+        "Advanced output:",
+        "No multiple scattering:"
 };
 
 #define C_DEFAULT 1.0

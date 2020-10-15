@@ -227,6 +227,12 @@ void read_input(Global *global, Ion **ion, Target *target, Detector *detector) {
                     global->advanced_output = TRUE;
                 }
                 break;
+            case I_NOMC:
+                word = get_word(c, &n);
+                if (strcmp(word, "true") == 0 || strcmp(word, "TRUE") == 0) {
+                    global->nomc = TRUE;
+                }
+                break;
             default:
                 break;
         }

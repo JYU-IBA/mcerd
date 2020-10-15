@@ -142,7 +142,10 @@ void next_scattering(Global *global, Ion *ion, Target *target,
     Target_layer *layer;
     double cross = 0.0, b[MAXATOMS], rcross;
     int i, p;
-
+    if(global->nomc) {
+        snext->d = 100.0 * C_NM;
+        return;
+    }
     layer = &(target->layer[ion->tlayer]);
 
     for (i = 0; i < layer->natoms; i++) {
@@ -174,7 +177,11 @@ void next_scattering(Global *global, Ion *ion, Target *target,
          sqrt((b[i]/layer->N[i])/PI)/C_ANGSTROM);
 */
     snext->d = -log(rnd(0.0, 1.0, RND_RIGHT, RND_CONT)) / (cross);
-
+#ifdef NO_SUBNM_STEPS_WARNING_UNPHYSICAL
+    if(snext->d < 1.0 * C_NM)
+        snext->d = 1.0*C_NM;
+    }
+#endif
 }
 
 int move_ion(Global *global, Ion *ion, Target *target, SNext *snext) {
@@ -680,22 +687,21 @@ double get_angle(Scattering *scat, Ion *ion) {
 
     if (i > (EPSNUM - 2)) {
         fprintf(stderr, "Warning: energy exceeds the maximum of the scattering table energy\n");
-        return (1.0);
+        return (0.0);
     }
     if (i < 1) {
         fprintf(stderr, "Warning: energy is below the minimum of the scattering table energy\n");
-        return (1.0);
+        return (0.0);
     }
     if (j < 1) {
         fprintf(stderr, "Warning: impact parameter is below the minimum of the scattering table value\n");
-        return (-1.0);
+        printf("y: %10.3f\n",y*scat->a/C_ANGSTROM);
+        return (PI); /* PI or zero? */
     }
     if (j > (YNUM - 2)) {
-/*
-      fprintf(stderr,"Warning: impact parameter exceeds the maximum of the scattering table value: %i\n",j);
-      printf("y: %10.3f\n",y*scat->a/C_ANGSTROM);
-*/
-        return (1.0);
+        fprintf(stderr,"Warning: impact parameter exceeds the maximum of the scattering table value: %i\n",j);
+        printf("y: %10.3f\n",y*scat->a/C_ANGSTROM);
+        return (0.0);
     }
 
     ylow = scat->angle[0][j];

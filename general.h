@@ -224,6 +224,7 @@ typedef struct {
     int cascades; /* Bool TRUE/FALSE */
     int advanced_output; /* Bool TRUE/FALSE */
     jibal *jibal;
+    int nomc; /* Bool TRUE/FALSE */
 } Global;
 
 /*      Structures for the properties of the moving ion */

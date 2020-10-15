@@ -39,6 +39,7 @@ void init_params(Global *global, Target *target, int argc, char *argv[]) {
     global->output_trackpoints = FALSE;
     global->cascades = FALSE;
     global->advanced_output = FALSE;
+    global->nomc = FALSE; /* REMINDER: default should be FALSE */
 
 }
 

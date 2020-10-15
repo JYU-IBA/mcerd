@@ -40,11 +40,11 @@ int main(int argc, char *argv[]) {
     int new_track = 1;
     double E_previous = 0.0, E_difference;
     fprintf(stderr, "MCERD %s compiled using JIBAL %s, current library version %s.\n", mcerd_VERSION, jibal_VERSION, jibal_version());
-#ifdef DEBUG
+//#ifdef DEBUG
     for(i=0; i < argc; i++) {
         fprintf(stderr, "argv[%i]=%s\n", i, argv[i]);
     }
-#endif
+//#endif
     global.jibal = jibal_init(NULL);
     if (global.jibal->error) {
         fprintf(stderr, "Initializing JIBAL failed with error code: %i (%s)\n", global.jibal->error,
@@ -177,7 +177,7 @@ int main(int argc, char *argv[]) {
                 init_recoiling_angle(&global, ion, target, &detector);
             }
 
-            if (nscat == MC_SCATTERING && cur_ion->status == NOT_FINISHED) {
+            if (nscat == MC_SCATTERING && cur_ion->status == NOT_FINISHED && !global.nomc) {
                 if (mc_scattering(&global, cur_ion, next_ion(&global, cur_ion, ions_moving), target, &detector, scat,
                                   &snext)) {
                     cur_ion = next_ion(&global, cur_ion, ions_moving);
