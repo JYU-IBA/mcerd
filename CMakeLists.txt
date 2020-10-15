@@ -4,6 +4,11 @@ if(WIN32 AND DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
       CACHE STRING "")
   message(STATUS "CMake toolchain file ${CMAKE_TOOLCHAIN_FILE}")
 endif()
+
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
 project(mcerd
         VERSION 1.0.2
         DESCRIPTION "Monte Carlo ERD"
@@ -25,9 +30,8 @@ if(DEVELOPER_MODE_ENABLE)
 else()
     set(MCERD_DATADIR "${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}/")
 endif()
+
 configure_file(mcerd_config.h.in mcerd_config.h @ONLY)
-
-
 
 add_executable(mcerd 
     main.c cross_section.c read_input.c scattering_angle.c
