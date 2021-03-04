@@ -46,7 +46,7 @@ void calc_stopping_and_straggling(Global *global, Ion *ion, Target *target, int 
         for (j = 0; j < layer->sto[nion].n_sto; j++) {
             v = j * vstep;
             layer->sto[nion].vel[j] = v;
-            double em = energy_per_mass(v);
+            double em = jibal_energy_per_mass(v);
             double stop = jibal_gsto_get_em(global->jibal->gsto, GSTO_STO_ELE, z1, z2, em) * layer->N[i];
             double stragg = jibal_gsto_get_em(global->jibal->gsto, GSTO_STO_STRAGG, z1, z2, em) * layer->N[i];
             if ((j && stop == 0.0) || !isfinite(stop)) {
