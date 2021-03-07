@@ -6,6 +6,6 @@ target_include_directories(get_espe PRIVATE
         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>)
 
 target_link_libraries(get_espe
-        PRIVATE Jibal
+        PRIVATE jibal
         PRIVATE pcg
         "$<$<BOOL:${UNIX}>:m>")

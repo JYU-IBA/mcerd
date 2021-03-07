@@ -10,7 +10,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 project(mcerd
-        VERSION 1.0.3
+        VERSION 1.0.4
         DESCRIPTION "Monte Carlo ERD"
         LANGUAGES C
         )
@@ -19,7 +19,7 @@ set(CMAKE_REQUIRED_LIBRARIES "m")
 
 set(CMAKE_C_STANDARD 99)
 
-find_package(Jibal 0.2.8 REQUIRED)
+find_package(Jibal 0.3.0 REQUIRED)
 if(Jibal_FOUND)
     message(STATUS "JIBAL ${Jibal_VERSION} headers found at ${Jibal_INCLUDE_DIR}")
 endif()
@@ -53,7 +53,7 @@ elseif(MSVC)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /STACK:8388608") #8 MB
 endif()
 
-target_link_libraries(mcerd PRIVATE Jibal PRIVATE pcg
+target_link_libraries(mcerd PRIVATE jibal PRIVATE pcg
     "$<$<BOOL:${UNIX}>:m>"
     )
 
