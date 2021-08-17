@@ -2,7 +2,7 @@
 #include "mcerd_config.h"
 
 #define MAXUNITSTRING 20
-#define MAXLEN 200
+#define MAXLEN 1000
 #define ERR_INPUT 100
 
 #define I_TYPE       0
