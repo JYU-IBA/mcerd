@@ -159,8 +159,9 @@ int erd_scattering(Global *global, Ion *ion, Ion *recoil, Target *target,
         recoil->lab.theta = ion->lab.theta;
         recoil->lab.fii = ion->lab.fii;
         recoil->virtual = FALSE;
-        for (i = 0; i < (target->nlayers - target->ntarget); i++)
+        for (i = 0; i < detector->nfoils; i++)
             recoil->Ed[i] = 0.0;
+            recoil->dt[i] = 0.0;
 #ifdef REC_ANG
         recoil->rec_ion_theta = sc_ion.theta/C_DEG;
         recoil->rec_lab_theta = sc_lab.theta/C_DEG;

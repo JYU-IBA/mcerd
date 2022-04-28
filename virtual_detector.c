@@ -242,9 +242,7 @@ void hit_virtual_detector(Global *global, Ion *ion, Target *target,
 
     ion->w *= dw;
     ion->E += dE1 + dE2;
-
-    if (det->type == DET_GAS)
-        ion->Ed[n] = ion->E;
+    ion->Ed[n] = ion->E;
 
     /* We may end up with a negative energy */
 

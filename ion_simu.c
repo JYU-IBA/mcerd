@@ -590,6 +590,7 @@ int mc_scattering(Global *global, Ion *ion, Ion *recoil, Target *target, Detecto
                 recoil->opt.sin_theta = ion->opt.sin_theta;
                 recoil->E_nucl_loss_det = 0.0;
                 recoil->Ed[recoil->tlayer - target->ntarget] = recoil->E;
+                recoil->dt[recoil->tlayer - target->ntarget] = recoil->time;
 
                 /*recoil->Ed = ion->Ed;
                  recoil->dt = ion->dt;

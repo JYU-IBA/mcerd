@@ -9,7 +9,7 @@ void read_detector_file(char *fname, Global *global, Detector *detector, Target 
     int c, n = 0;
 
     global->virtualdet = FALSE;
-
+    memset(detector, 0, sizeof(Detector));
     fp = fopen(fname, "r");
 
     if (fp == NULL) {
@@ -22,10 +22,10 @@ void read_detector_file(char *fname, Global *global, Detector *detector, Target 
 
     if (strcmp(dtype, "TOF") == 0) {
         detector->type = DET_TOF;
-    } else if (strcmp(dtype, "GAS") == 0) {
-        detector->type = DET_GAS;
+    } else if (strcmp(dtype, "ENERGY") == 0) {
+        detector->type = DET_ENERGY;
     } else {
-        fprintf(stderr, "Only the TOF and gas detector supported\n");
+        fprintf(stderr, "Only TOF and ENERGY detector supported\n");
         exit(12);
     }
 
@@ -37,18 +37,17 @@ void read_detector_file(char *fname, Global *global, Detector *detector, Target 
                &(detector->vsize[0]), &(detector->vsize[1]));
     check_ioerror(c, 2, fname);
 
-    c = fscanf(fp, "Timing detector numbers: %i %i\n",
-               &(detector->tdet[0]), &(detector->tdet[1]));
-    check_ioerror(c, 2, fname);
 
-    if (global->output_trackpoints) {
-        c = fscanf(fp, "Energy detector layer: %i\n",
-                   &(detector->edet[0]));
-        if (c != 1) {
-            fprintf(stderr, "Give energy detector layer if you want to output trackpoints.\n");
-        }
+    c = fscanf(fp, "Timing detector numbers: %i %i\n", &(detector->tdet[0]), &(detector->tdet[1]));
+    if(detector->type == DET_TOF) {
+        check_ioerror(c, 2, fname);
+    }
+
+    c = fscanf(fp, "Energy detector number: %i\n", &(detector->edet[0]));
+    if (detector->type == DET_ENERGY || global->output_trackpoints) {
         check_ioerror(c, 1, fname);
     }
+
     c = fscanf(fp, "Description file for the detector foils: %s\n", foil_file);
     check_ioerror(c, 1, fname);
 

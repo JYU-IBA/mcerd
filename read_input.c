@@ -278,11 +278,9 @@ void read_input(Global *global, Ion **ion, Target *target, Detector *detector) {
 
     target->ntarget = target->nlayers - detector->nfoils;
 
-    if (detector->type == DET_TOF) {
-        detector->tdet[0] += target->ntarget;
-        detector->tdet[1] += target->ntarget;
-        detector->edet[0] += target->ntarget;
-    }
+    detector->tdet[0] += target->ntarget;
+    detector->tdet[1] += target->ntarget;
+    detector->edet[0] += target->ntarget;
 
     for (i = target->nlayers - 1; i > target->ntarget; i--) {
         target->layer[i].dlow = 0.0;

@@ -434,8 +434,7 @@ typedef struct {
 } Circ;
 
 #define DET_TOF  1
-#define DET_GAS  2
-#define DET_FOIL 3
+#define DET_ENERGY 2
 
 #define MAXFOILS 10
 
@@ -459,7 +458,7 @@ typedef struct {
     int virtual;      /* Do we have the virtual detector */
     double vsize[2];  /* Size of the virtual detector relative to the real */
     int tdet[2]; /* Layer numbers for the timing detectors */
-    int edet[MAXLAYERS]; /* Layer number(s) for energy detector (layers) */
+    int edet[1]; /* Layer number(s) for energy detector (layers) */
     double thetamax;  /* maximum half-angle of the detector (spot size incl.) */
     double vthetamax; /* maximum half-angle of the virtual detector */
     Det_foil foil[MAXFOILS];   /* Detector foil data structure */

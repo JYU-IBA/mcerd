@@ -5,8 +5,9 @@
 #include "general.h"
 #include "rough_surface.h"
 
-
+#ifndef C_NM
 #define C_NM 1.0e-9
+#endif
 
 int surface_crossing(Surface *surface, Point *P1, Point *P2, Point *pc) {
     SPoint *p1, *p2, *p3;
@@ -381,7 +382,9 @@ void first_vertical_cross(SPoint *p1, SPoint *p2, double s,
     *nc -= p1->y;
 }
 
-double Z(Surface *surface, double x, double y) {
+double
+
+Z(Surface *surface, double x, double y) {
     Point p1, p2;
     double z1, z2, z, x0, y0;
     int i, j;

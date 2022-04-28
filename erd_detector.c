@@ -29,13 +29,11 @@ void move_to_erd_detector(Global *global, Ion *ion, Target *target, Detector *de
     double out_theta, out_fii, theta, fii, dist;
     int is_cross, n, i;
 
-    if (ion->tlayer < 0) {    /* Just recoiled from the target */
+    if (ion->tlayer < target->ntarget) {    /* Just recoiled from the target */
         ion->tlayer = target->ntarget;
-        for (i = 0; i < 2; i++) {
-            ion->dt[i] = 0.0;
-        }
         for (i = 0; i < detector->nfoils; i++) {
             ion->Ed[i] = 0.0;
+            ion->dt[i] = 0.0;
             ion->hit[i].x = 0.0;
             ion->hit[i].y = 0.0;
         }
@@ -53,7 +51,6 @@ void move_to_erd_detector(Global *global, Ion *ion, Target *target, Detector *de
 #ifdef DEBUG
     fprintf(global->master.fpdebug, "T We're in detector layer %i, tlayer=%i.\n", n, ion->tlayer);
 #endif
-    /*  if(detector->type == DET_GAS)*/ /* TODO: is it okay?*/
     ion->Ed[n] = ion->E;
 
     if (n < 0 || n >= detector->nfoils)
@@ -98,10 +95,7 @@ void move_to_erd_detector(Global *global, Ion *ion, Target *target, Detector *de
 #endif
         dist = get_distance(&pout, &cross);
         ion->time += dist / sqrt(2.0 * ion->E / ion->A);
-        for (i = 0; i < 2; i++) {
-            if (ion->tlayer == detector->tdet[i])
-                ion->dt[i] = ion->time;
-        }
+        ion->dt[n] = ion->time;
         ion->status = NOT_FINISHED;
         ion->lab.theta = detector->angle;
         ion->lab.fii = 0.0;
@@ -117,12 +111,7 @@ void move_to_erd_detector(Global *global, Ion *ion, Target *target, Detector *de
             print_ion_position(global,ion,"W",ANYSIMULATION);
 #endif
             hit_virtual_detector(global, ion, target, detector, &cross, &pout);
-            if (detector->type == DET_TOF) {
-                for (i = 0; i < 2; i++) {
-                    if (ion->tlayer == detector->tdet[i])
-                        ion->dt[i] = ion->time;
-                }
-            }
+            ion->dt[n] = ion->time;
             ion->virtual = TRUE;
 #ifdef DEBUG
             fprintf(global->master.fpdebug, "T VIRTUAL!\n");
