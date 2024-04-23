@@ -346,6 +346,9 @@ int main(int argc, char *argv[]) {
     }
 
     readparams(argc, argv, jibal, &params, &data);
+    fprintf(stderr, "Beam Z:                                   %i\n", params.z1);
+    fprintf(stderr, "Beam A:                                   %i\n", params.a1);
+    fprintf(stderr, "Beam mass:                                %g amu\n", params.m1 / C_U);
     fprintf(stderr, "Beam energy:                           %7.2f MeV \n", params.energy / C_MEV);
     fprintf(stderr, "Detector angle:                        %7.2f deg \n", params.theta / C_DEG);
     fprintf(stderr, "Target angle:                          %7.2f deg \n", params.tangle / C_DEG);
