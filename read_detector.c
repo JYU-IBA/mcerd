@@ -7,11 +7,10 @@ void read_detector_file(char *fname, Global *global, Detector *detector, Target 
     FILE *fp;
     char dtype[10], ftype[20], foil_file[LINE], buf[LINE];
     int c, n = 0;
-
+    foil_file[0] = '\0';
     global->virtualdet = FALSE;
     memset(detector, 0, sizeof(Detector));
     fp = fopen(fname, "r");
-
     if (fp == NULL) {
         fprintf(stderr, "Could not open the ERD-detector file %s\n", fname);
         exit(10);
@@ -48,8 +47,19 @@ void read_detector_file(char *fname, Global *global, Detector *detector, Target 
         check_ioerror(c, 1, fname);
     }
 
-    c = fscanf(fp, "Description file for the detector foils: %s\n", foil_file);
-    check_ioerror(c, 1, fname);
+    if(fgets(buf, LINE, fp)) { /* Shitty workaround to support spaces in filenames, because this code used to rely on fscanf */
+        static const char *df_line = "Description file for the detector foils: ";
+        size_t df_line_len = strlen(df_line);
+        if(strncmp(buf, df_line, df_line_len) == 0) {
+            strncpy(foil_file, buf + df_line_len, LINE);
+            foil_file[strcspn(foil_file, "\r\n")] = 0; /* Strips newlines */
+        } else {
+            fprintf(stderr, "Detector foil description file not given (got \"%s\", expected something starting with \"%s\")\n", buf, df_line);
+            exit(2);
+        }
+    } else {
+        exit(2);
+    }
 
     while (fgets(buf, LINE, fp) != NULL) {
         c = fscanf(fp, "Foil type: %s\n", ftype);

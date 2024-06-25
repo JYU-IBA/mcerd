@@ -14,10 +14,10 @@ void read_target_file(char *fname, Global *global, Target *target) {
 
     fp = fopen(fname, "r");
 
-    if (fp == NULL)
+    fprintf(stderr, "Opening target file \"%s\"\n", fname);
+    if (fp == NULL) {
         fatal_error("Could not open the target description file\n");
-    else
-        printf("Opening target file %s\n", fname);
+    }
 
     natoms = norigatom = target->natoms;
     nlayer = noriglayer = target->nlayers;

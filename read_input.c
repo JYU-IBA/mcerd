@@ -18,6 +18,7 @@ void read_input(Global *global, Ion **ion, Target *target, Detector *detector) {
     fout = stderr;
 
     if (global->master.argc > 1) {
+        fprintf(stderr, "Reading configuration from %s\n", global->master.argv[1]);
         fp = fopen(global->master.argv[1], "r");
         if (fp == NULL)
             fatal_error("Could not open command file\n");
@@ -26,14 +27,20 @@ void read_input(Global *global, Ion **ion, Target *target, Detector *detector) {
         exit(11);
     }
 
+    int lineno = 0;
     while (fgets(buf, MAXLEN, fp) != NULL) {
+        lineno++;
+        buf[strcspn(buf, "\r\n")] = 0; /* Strips newlines */
         i = 0;
         while (i < NINPUT && (c = strstr(buf, inlines[i])) == NULL)
             i++;
-
+        fprintf(stderr, "%3i %s\n", lineno, buf);
         if (i < NINPUT) {
             c += strlen(inlines[i]);
             c = trim_space(c);
+            fprintf(stderr, "Line %i, got inline #%i: %s %s\n", lineno, i, inlines[i], c);
+        } else {
+            fprintf(stderr, "Unknown configuration line %i, ignoring it: %s", lineno, buf);
         }
 
         switch (i) {
@@ -55,7 +62,7 @@ void read_input(Global *global, Ion **ion, Target *target, Detector *detector) {
                 memset(*ion, 0, sizeof(Ion) * global->nions);
                 break;
             case I_ION:
-                c = get_string(c);
+                fprintf(stderr, "Trying to find ion %s\n", c);
                 get_ion(global->jibal->elements, c, &((*ion)[PRIMARY].Z), &((*ion)[PRIMARY].A), &((*ion)[PRIMARY].I));
                 (*ion)[PRIMARY].type = PRIMARY;
                 fprintf(fout, "Beam ion: Z=%.0f, M=%.3f\n", (*ion)[PRIMARY].Z, (*ion)[PRIMARY].A / C_U);
@@ -67,17 +74,14 @@ void read_input(Global *global, Ion **ion, Target *target, Detector *detector) {
                 global->ionemax = 1.01 * global->E0;
                 break;
             case I_TARGET:
-                word = get_word(c, &n);
                 fprintf(stderr, "Reading target file.\n");
-                read_target_file(word, global, target);
+                read_target_file(c, global, target);
                 break;
             case I_DETECTOR:
-                word = get_word(c, &n);
                 fprintf(stderr, "Reading detector file.\n");
-                read_detector_file(word, global, detector, target);
+                read_detector_file(c, global, detector, target);
                 break;
             case I_RECOIL:
-                c = get_string(c);
                 get_ion(global->jibal->elements, c, &((*ion)[SECONDARY].Z), &((*ion)[SECONDARY].A),
                         &((*ion)[SECONDARY].I));
                 (*ion)[SECONDARY].type = SECONDARY;
@@ -90,8 +94,7 @@ void read_input(Global *global, Ion **ion, Target *target, Detector *detector) {
                     fprintf(fout, "Most abundant isotope: %10.3f\n", (*ion)[SECONDARY].I.Am / C_U);
                 break;
             case I_RECDIST:
-                word = get_word(c, &n);
-                fval = read_file(word, 2, &n);
+                fval = read_file(c, 2, &n);
                 if (n < 2)
                     fatal_error("Too few points in the recoiling material distribution\n");
                 if (fval->a[0] < 0.0)
@@ -153,14 +156,19 @@ void read_input(Global *global, Ion **ion, Target *target, Detector *detector) {
                 break;
             case I_RECWIDTH:
                 word = get_word(c, &n);
-                if (strcmp(word, "wide") == 0 || strcmp(word, "WIDE") == 0)
+                if (strcmp(word, "wide") == 0 || strcmp(word, "WIDE") == 0) {
+                    fprintf(stderr, "Got wide.\n");
                     global->recwidth = REC_WIDE;
-                else
+                } else if (strcmp(word, "narrow") == 0 || strcmp(word, "NARROW") == 0) {
+                    fprintf(stderr, "Got narrow.\n");
                     global->recwidth = REC_NARROW;
+                } else {
+                    fprintf(stderr, "Recoil angle width should be either wide or narrow.");
+                    exit(666);
+                }
                 break;
             case I_PREDATA:
-                word = get_word(c, &n);
-                fval = read_file(word, 2, &n);
+                fval = read_file(c, 2, &n);
                 for (i = 0; i < n; i++) {
                     target->recpar[i].x = fval->a[i] * C_DEG / C_NM;
                     target->recpar[i].y = fval->b[i] * C_DEG;
