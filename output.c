@@ -27,15 +27,15 @@ void output_erd(Global *global, Ion *cur_ion, Ion *ion, Target *target,
             cur_ion->scale ? 'S' : 'R',
             cur_ion->virtual ? 'V' : 'R',
             global->simtype == SIM_ERD ? 'R' : 'S');
-    if (global->output_trackpoints) {
-        fprintf(global->master.fperd, "%12"PRIi64" ", cur_ion->trackid);
-    }
+
     if (global->advanced_output) {
+        if (global->output_trackpoints) {
+            fprintf(global->master.fperd, "%12"PRIi64" ", cur_ion->trackid);
+        } else {
+            fprintf(global->master.fperd, "0 ");
+        }
         fprintf(global->master.fperd, "%i ", cur_ion->status);
         fprintf(global->master.fperd, "%i ", n);
-        fprintf(global->master.fperd, "%8.4f ", cur_ion->E / C_MEV);
-        fprintf(global->master.fperd, "%8.4f ", cur_ion->hist.ion_E / C_MEV);
-        fprintf(global->master.fperd, "%7.3f ", cur_ion->hist.ion_recoil.theta / C_DEG);
     }
 
     if (global->rough) {
@@ -70,13 +70,15 @@ void output_erd(Global *global, Ion *cur_ion, Ion *ion, Target *target,
     fprintf(global->master.fperd, "%6.2f ", cur_ion->hist.A / C_U);
     fprintf(global->master.fperd, "%10.4f ", cur_ion->hist.tar_recoil.p.z / C_NM);
     fprintf(global->master.fperd, "%14.7e ", cur_ion->w);
+    fprintf(global->master.fperd, "%10.3f ", (cur_ion->dt[detector->tdet[1] - target->ntarget] - cur_ion->dt[detector->tdet[0] - target->ntarget]) / C_NS); /* ToF */
 
     if (global->advanced_output) {
+        fprintf(global->master.fperd, "%8.4f ", cur_ion->hist.ion_E / C_MEV);
+        fprintf(global->master.fperd, "%7.3f ", cur_ion->hist.ion_recoil.theta / C_DEG);
         fprintf(global->master.fperd, "%7.3f ", cur_ion->dt[detector->tdet[0] - target->ntarget] / C_NS);
         fprintf(global->master.fperd, "%7.3f ", cur_ion->dt[detector->tdet[1] - target->ntarget] / C_NS);
-    } else {
-        fprintf(global->master.fperd, "%10.3f ", (cur_ion->dt[detector->tdet[1] - target->ntarget] - cur_ion->dt[detector->tdet[0] - target->ntarget]) / C_NS); /* ToF */
     }
+
     if (!global->advanced_output) {
         fprintf(global->master.fperd, "%6.2f ", cur_ion->hit[detector->edet[0] - target->ntarget].x / C_MM);
         fprintf(global->master.fperd, "%6.2f ", cur_ion->hit[detector->edet[0] - target->ntarget].y / C_MM);

@@ -1,3 +1,7 @@
+if(ADVANCED_OUTPUT)
+    add_compile_options(-DADVANCED_OUTPUT)
+endif()
+
 add_executable(get_espe gauss.c ../ran_pcg.c get_espe.c)
 
 target_include_directories(get_espe PRIVATE

@@ -30,7 +30,7 @@
 #define NDATA   100000 /* Initial number of events for malloc. More space for events will be realloced as necessary. */
 #define NSPE      20000
 #define NDDIST      500
-#ifdef TRACKID
+#ifdef ADVANCED_OUTPUT
 #define NLINE 256
 #else
 #define NLINE       128
@@ -54,8 +54,8 @@
 #define DET_TOFLEN       0.623
 #define DET_CIRCULAR 0
 #define DET_RECT 1
-#ifdef TRACKID
-#define NEVENT_DATA  15
+#ifdef ADVANCED_OUTPUT
+#define NEVENT_DATA  24
 #else
 #define NEVENT_DATA  11
 #endif
@@ -79,12 +79,17 @@ typedef struct {
     double time;
     double dx;
     double dy;
-#ifdef TRACKID
+#ifdef ADVANCED_OUTPUT
     int64_t trackid;
     int status;
     int layer;
     double t1;
     double t2;
+    double energy_hist;
+    double theta_hist;
+    double x_aperture, y_aperture;
+    double x_t1, y_t1;
+    double x_t2, y_t2;
 #endif
 } Event;
 
@@ -187,13 +192,13 @@ int print_events(Event *event, int nevents, double scale) {
     int i;
     for (i = 0; i < nevents; i++) {
         if (!(event[i].scale)) {
-#ifdef TRACKID
+#ifdef ADVANCED_OUTPUT
             fprintf(stdout, "%c %c %c " /* 1, 2, 3 */
                             "%12"PRIu64" %i %i " /* 4, 5, 6 */
                             "%8.4f %3i %6.2f " /* 7, 8, 9 */
                             "%10.4f %14.7e " /* 10, 11 */
                             "%7.3f %7.3f " /* 12, 13 */
-                            "%6.2f %6.2f\n" /* 14, 15 */
+                            "%6.2f %6.2f\n", /* 14, 15 */
                 event[i].sca, event[i].det, event[i].sct, /* 1, 2, 3 */
                 event[i].trackid, event[i].status, event[i].layer, /* 4, 5, 6 */
                 event[i].energy/C_MEV, event[i].z2, event[i].m2/C_U, /* 7, 8, 9 */
@@ -370,17 +375,20 @@ int main(int argc, char *argv[]) {
         if (*line == '#')
             continue;
         Event *e = &event[data.nevents];
-#ifdef TRACKID
-#define
-        int ncols = sscanf(line,"%c %c %c %"PRIi64" %i %i %lf %i %lf %lf %lf %lf %lf %lf %lf %lf %lf",
+#ifdef ADVANCED_OUTPUT
+        int ncols = sscanf(line,"%c %c %c %"PRIi64" %i %i %lf %i %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",
                    &(e->sca),&(e->det),&(e->sct), /* 1, 2, 3 */
                    &(e->trackid), &(e->status), &(e->layer), /* 4, 5, 6 */
                    &(e->energy),&(e->z2),&(e->m2), /* 7, 8, 9 */
-                   &(e->depth),&(e->weight), /* 10, 11 */
-                   &(e->t1), &(e->t2),  /* 12, 13 */
-                   &(e->dx),&(e->dy), /* 14, 15 */
+                   &(e->depth),&(e->weight), &(e->time), /* 10, 11, 12 */
+                   &(e->energy_hist), &(e->theta_hist), /* 13, 14 */
+                   &(e->t1), &(e->t2),  /* 15, 16 */
+                   &(e->x_aperture), &(e->y_aperture), /* 17, 18 */
+                   &(e->x_t1), &(e->y_t1), /* 19, 20 */
+                   &(e->x_t2), &(e->y_t2), /* 21, 22 */
+                   &(e->dx),&(e->dy) /* 23, 24 */
         );
-        event->time=event->t2-event->t1;
+        event->time = event->t2 - event->t1;
 #else
         int ncols = sscanf(line, "%c %c %c %lf %i %lf %lf %lf %lf %lf %lf",
                            &(e->sca), &(e->det), &(e->sct),
