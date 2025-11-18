@@ -10,7 +10,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 project(mcerd
-        VERSION 1.0.5
+        VERSION 1.0.6
         DESCRIPTION "Monte Carlo ERD"
         LANGUAGES C
         )
@@ -19,7 +19,7 @@ set(CMAKE_REQUIRED_LIBRARIES "m")
 
 set(CMAKE_C_STANDARD 99)
 
-find_package(Jibal 0.3.9 REQUIRED)
+find_package(Jibal 0.3.14 REQUIRED)
 if(Jibal_FOUND)
     message(STATUS "JIBAL ${Jibal_VERSION} headers found at ${Jibal_INCLUDE_DIR}")
 endif()

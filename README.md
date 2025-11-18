@@ -2,7 +2,7 @@
 
 Program for simulation simulating ERD spectra using Monte Carlo methods.
     
-    Copyright (C) 1996-2020  Kai Arstila, 2015-2023 Jaakko Julin
+    Copyright (C) 1996-2020  Kai Arstila, 2015-2025 Jaakko Julin
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
