@@ -65,8 +65,8 @@
 #define NRECDIST 500
 
 #define MAXLAYERS 50    /* Number of different target layers */
-#define MAXATOMS 20     /* Number of different atoms in the target layer */
-#define MAXELEMENTS 20  /* Maximum total number of different atoms in
+#define MAXATOMS 50     /* Number of different atoms in the target layer */
+#define MAXELEMENTS 50  /* Maximum total number of different atoms in
                            the target */
 #define NANGDIST 200    /* Number of points in reaction angular distribution */
 
