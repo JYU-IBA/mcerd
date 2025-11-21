@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
     int new_track = 1;
     double E_previous = 0.0, E_difference;
     fprintf(stderr, "MCERD %s compiled using JIBAL %s, current library version %s.\n", mcerd_VERSION, JIBAL_VERSION, jibal_version());
+    fprintf(stderr, "MAXELEMENTS = %i, MAXISOTOPES = %i, MAXLAYERS = %i\n", MAXELEMENTS, MAXISOTOPES, MAXLAYERS);
 #ifdef DEBUG
     for(i=0; i < argc; i++) {
         fprintf(stderr, "argv[%i]=%s\n", i, argv[i]);
@@ -77,8 +78,7 @@ int main(int argc, char *argv[]) {
         if (global.simtype == SIM_RBS && i == TARGET_ATOM)
             continue;
         ion[i].scatindex = i; /* This replaces "ion->type" in many places where ion->type was used as an index in a table. ion->type is still used to distinguish between primary and secondary in some scattering-related things */
-        scat[i] = malloc(sizeof(Scattering) * MAXELEMENTS);
-        memset(scat[i], 0, sizeof(Scattering) * MAXELEMENTS);
+        scat[i] = calloc(MAXELEMENTS, sizeof(Scattering));
         for (j = 0; j < target->natoms; j++) {
 /*       scat[i][j].pot = &pot;  */
             fprintf(stderr, "Calculating scattering b/w ions %i (Z=%g A=%g), and target target atom %i (Z=%g A=%g)\n",

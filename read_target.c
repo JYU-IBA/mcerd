@@ -30,6 +30,10 @@ void read_target_file(char *fname, Global *global, Target *target) {
         target->ele[natoms].A = M;
         printf("Atom: %3i %5.4f %f\n", natoms, Z, M / C_U);
         natoms++;
+        if(natoms >= MAXELEMENTS) {
+            printf("Too many elements in target (max %i)\n", MAXELEMENTS);
+            exit(35);
+        }
     }
     target->natoms = natoms;
 
@@ -133,7 +137,7 @@ void read_target_file(char *fname, Global *global, Target *target) {
     }
 
     printf("\nnumber of layers: %i\nminN: %.4e", target->nlayers, target->minN);
-    printf("\nnumber of atoms: %i\n", target->natoms);
+    printf("\nnumber of atoms in target: %i\n", target->natoms);
     fclose(fp);
 
 }
